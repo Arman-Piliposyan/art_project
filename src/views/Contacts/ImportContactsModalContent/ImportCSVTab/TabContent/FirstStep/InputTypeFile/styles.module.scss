@@ -1,0 +1,87 @@
+@import '/src/globalStyles/colors.scss';
+
+.upload_files_container {
+  background-color: $muiDataGridBackground;
+}
+
+.box_shadow_neutral {
+  width: 100%;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.file_area {
+  background-color: $paperBackgroundColor;
+  border-radius: 8px;
+  padding: 30px 50px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 280px;
+  gap: 16px;
+  justify-content: center;
+}
+
+.files_name {
+  color: $simulacrumPrimary;
+  cursor: pointer;
+  font-size: 25px;
+  word-wrap: break-word;
+}
+
+.error {
+  height: 20px;
+  margin-bottom: 4px;
+}
+
+.error_text {
+  font-size: 12px;
+  color: $invalidRed;
+}
+
+.file_area label {
+  font-size: 16px;
+}
+
+.file_area label .browse_files_text {
+  color: $simulacrumPrimary;
+  cursor: pointer;
+}
+
+.file_cursor_pointer {
+  cursor: pointer;
+}
+
+.browse_files span {
+  position: relative;
+  top: -25px;
+}
+
+.default_file_input {
+  opacity: 0;
+}
+.cannot_upload_message {
+  background-color: #ffc6c4;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+  padding: 5px 10px 5px 30px;
+  border-radius: 5px;
+  color: $invalidRed;
+  display: none;
+}
+
+.display {
+  display: block;
+}
+
+.hide {
+  display: none;
+}

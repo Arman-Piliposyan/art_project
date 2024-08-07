@@ -1,0 +1,3 @@
+path/file_to_ignore merge=ours
+var/set-env.sh merge=ours
+webpack.config.js merge=ours

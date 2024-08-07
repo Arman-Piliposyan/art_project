@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import '/src/globalStyles/colors.scss';
+
+body {
+  font-family: 'Poppins', Arial, Helvetica, sans-serif !important;
+  color: $black !important;
+  background-color: $mainBackgroundColor !important;
+}
+
+li::marker {
+  color: $inputBorder;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: color-mix(in srgb, $simulacrumPrimary 25%, transparent);
+  opacity: 0.1;
+}
+
+::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+  border-radius: 8px;
+  background-color: color-mix(in srgb, $simulacrumPrimary 25%, transparent);
+  opacity: 0.1;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: $simulacrumPrimary;
+}
+
+audio {
+  height: 40px;
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: $simulacrumPrimary;
+  height: 40px;
+}
+
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display {
+  color: white;
+}
+
+.MuiDataGrid-main > :nth-child(3) {
+  display: none !important;
+}
+.MuiDataGrid-virtualScroller {
+  max-height: none !important;
+}
+[data-field='editNode'] > div {
+  cursor: pointer;
+}
+[data-field='deleteNode'] > div {
+  cursor: pointer;
+  font-size: 16px;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: none !important;
+  -webkit-text-fill-color: black !important;
+}
+
+.StripeElement,
+.card_holder {
+  display: block;
+  margin: 5px 0 10px 0;
+  padding: 10px 14px;
+  font-size: 1em;
+  font-family: 'Source Code Pro', monospace;
+  border: 1px solid color-mix(in srgb, $white 80%, transparent);
+  outline: 0;
+  border-radius: 8px;
+  background: transparent;
+}
+
+.card_holder {
+  color: $white;
+}
+
+.card_holder::placeholder {
+  color: color-mix(in srgb, $white 700, transparent);
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.card_holder:focus {
+  border: 1px solid $simulacrumPrimary;
+}
+
+.StripeElement--focus {
+  border: 1px solid $simulacrumPrimary;
+  -webkit-transition: all 150ms ease;
+  transition: all 150ms ease;
+}
+
+.StripeElement.IdealBankElement,
+.StripeElement.FpxBankElement,
+.StripeElement.PaymentRequestButton {
+  padding: 0;
+}
+
+.StripeElement.PaymentRequestButton {
+  height: 40px;
+}
+
+.stripe_element_title {
+  font-size: 12px;
+}
+
+.train_ellipsis {
+  width: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  font-size: 14px;
+  -webkit-box-orient: vertical;
+  padding: 0 20px;
+  margin: 12px 0;
+}
+
+a[href='https://reactflow.dev']
+{
+  display: none !important;
+}

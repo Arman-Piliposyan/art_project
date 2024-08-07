@@ -1,0 +1,32 @@
+.variables_textarea_container {
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 4px 8px 14px 8px;
+  position: relative;
+}
+
+.variablesLabel {
+  background-color: black;
+  position: absolute;
+  font-size: 12px;
+  top: -10px;
+  padding: 0 4px;
+}
+
+.variablesTextarea {
+  resize: none;
+  background-color: black;
+  border: 1px solid white;
+  border-radius: 4px;
+  color: white;
+  padding: 4px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.errorText {
+  font-size: 10px;
+  color: red;
+  position: absolute;
+  left: 8px;
+  bottom: 2px;
+}

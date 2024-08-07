@@ -1,0 +1,31 @@
+{
+  "presets": [
+    "@babel/preset-typescript",
+    "@babel/preset-react",
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    ["@babel/transform-runtime"],
+    [
+      "inline-react-svg",
+      {
+        "svgo": {
+          "plugins": [
+            {
+              "name": "preset-default",
+              "params": {
+                "overrides": {
+                  "cleanupIDs": false
+                }
+              }
+            },
+            {
+              "name": "removeAttrs",
+              "params": { "attrs": "(data-name)" }
+            }
+          ]
+        }
+      }
+    ]
+  ]
+}

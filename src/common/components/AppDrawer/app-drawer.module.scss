@@ -1,0 +1,40 @@
+@import '/src/globalStyles/colors.scss';
+
+.navItem,
+.collapseItemParent {
+  // background-color: color-mix(in srgb, $black 50%, transparent);
+  color: $white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  margin: 2px 12px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.navItem:hover,
+.collapseItemParent:hover {
+  background-color: $simulacrumPrimary;
+  & p,
+  svg {
+    color: $white;
+  }
+}
+
+.selectedNavItem {
+  background-color: transparent;
+  transition: all 0.3s ease;
+  background: $paperBackgroundColor;
+  & p {
+    font-weight: 500;
+  }
+  & p,
+  svg {
+    color: $simulacrumPrimary;
+  }
+}
+
+.selectedNavItem:hover {
+  border: none;
+}

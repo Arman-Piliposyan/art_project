@@ -1,0 +1,148 @@
+image:
+  name: 001617643702.dkr.ecr.us-east-1.amazonaws.com/bitbucket-ci/cd:1.0.0
+  aws:
+    access-key: $AWS_KEY
+    secret-key: $AWS_SECRET
+definitions:
+  services:
+    docker:
+      memory: 7128
+pipelines:
+  branches:
+    develop:
+      - step:
+          name: 'build docker and pull to ECR'
+          services: [ docker ]
+          size: 2x
+          script:
+            - aws configure set aws_access_key_id "${AWS_KEY}"
+            - aws configure set aws_secret_access_key "${AWS_SECRET}"
+            - echo "REACT_APP_BASE_URL=$REACT_APP_BASE_URL_DEV" >> .env
+            - echo "REACT_APP_WALLE_BASE_URL=$REACT_APP_WALLE_BASE_URL_DEV" >> .env
+            - echo "REACT_APP_STRIPE_PUBLISH_KEY=$REACT_APP_STRIPE_PUBLISH_KEY_DEV" >> .env
+            - echo "REACT_APP_STRIPE_BASIC_PRICE_KEY=$REACT_APP_STRIPE_BASIC_PRICE_KEY_DEV" >> .env
+            - echo "REACT_APP_STRIPE_PRO_PRICE_KEY=$REACT_APP_STRIPE_PRO_PRICE_KEY_DEV" >> .env
+            - echo "REACT_APP_STRIPE_ADVANCED_PRICE_KEY=$REACT_APP_STRIPE_ADVANCED_PRICE_KEY_DEV" >> .env
+            - echo "REACT_APP_STRIPE_ENTERPRISE_PRICE_KEY=$REACT_APP_STRIPE_ENTERPRISE_PRICE_KEY_DEV" >> .env
+            - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ECR_DEV}
+            - docker build  -t ${AWS_ECR_DEV}:${BITBUCKET_COMMIT}  .
+            - docker push ${AWS_ECR_DEV}:${BITBUCKET_COMMIT}
+      - step:
+          name: Deploy to EKS
+          deployment: Develop
+          # trigger: manual  # Uncomment  makes this a manual deployment.
+          script:
+            - aws configure set aws_access_key_id "${AWS_KEY}"
+            - aws configure set aws_secret_access_key "${AWS_SECRET}"
+            - aws eks update-kubeconfig --region us-east-1 --name "${AWS_EKS_DEV}"
+            - git clone "${REPO_URL}"
+            - cd simulacrum.applications.helm.charts/top
+            - aws ecr get-login-password --region us-east-1 | helm registry login --username AWS --password-stdin ${HELM_LIBRARY_REPO}
+            - helm dependency update  ${CHART}
+            - helm upgrade -f ${CHART}/dev.values.yaml ${CHART} ${CHART} --set image.tag=${BITBUCKET_COMMIT} -i -n top
+            - sleep  15 && curl -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE/purge_cache"
+              -H "Content-Type:application/json" -H "Authorization:Bearer $CLOUDFLARE_AUTH_KEY" --data '{"purge_everything":true}'
+    demo:
+      - step:
+          name: 'build docker and pull to ECR  '
+          services: [ docker ]
+          size: 2x
+          script:
+            - aws configure set aws_access_key_id "${AWS_KEY}"
+            - aws configure set aws_secret_access_key "${AWS_SECRET}"
+            - echo "REACT_APP_BASE_URL=$REACT_APP_BASE_URL_DEMO" >> .env
+            - echo "REACT_APP_WALLE_BASE_URL=$REACT_APP_WALLE_BASE_URL_DEMO" >> .env
+            - echo "REACT_APP_STRIPE_PUBLISH_KEY=$REACT_APP_STRIPE_PUBLISH_KEY_DEMO" >> .env
+            - echo "REACT_APP_STRIPE_BASIC_PRICE_KEY=$REACT_APP_STRIPE_BASIC_PRICE_KEY_DEMO" >> .env
+            - echo "REACT_APP_STRIPE_PRO_PRICE_KEY=$REACT_APP_STRIPE_PRO_PRICE_KEY_DEMO" >> .env
+            - echo "REACT_APP_STRIPE_ADVANCED_PRICE_KEY=$REACT_APP_STRIPE_ADVANCED_PRICE_KEY_DEMO" >> .env
+            - echo "REACT_APP_STRIPE_ENTERPRISE_PRICE_KEY=$REACT_APP_STRIPE_ENTERPRISE_PRICE_KEY_DEMO" >> .env
+            - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ECR_DEMO}
+            - docker build -t ${AWS_ECR_DEMO}:${BITBUCKET_COMMIT} .
+            - docker push ${AWS_ECR_DEMO}:${BITBUCKET_COMMIT}
+      - step:
+          name: Deploy to EKS
+          deployment: demo
+          trigger: manual  # Uncomment to make this a mancual deployment.
+          script:
+            - aws configure set aws_access_key_id "${AWS_KEY}"
+            - aws configure set aws_secret_access_key "${AWS_SECRET}"
+            - aws eks update-kubeconfig --region us-east-1 --name "${AWS_EKS_DEV}"
+            - git clone "${REPO_URL}"
+            - cd simulacrum.applications.helm.charts
+            - aws ecr get-login-password --region us-east-1 | helm registry login --username AWS --password-stdin ${HELM_LIBRARY_REPO}
+            - helm dependency update  ${CHART}
+            - helm upgrade -f ${CHART}/demo.values.yaml ${CHART} ${CHART} --set image.tag=${BITBUCKET_COMMIT} -i -n demo
+            - sleep  15 && curl -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE/purge_cache"
+              -H "Content-Type:application/json" -H "Authorization:Bearer $CLOUDFLARE_AUTH_KEY" --data '{"purge_everything":true}'
+
+    staging:
+      - step:
+          name: 'build docker and pull to ECR  '
+          services: [ docker ]
+          size: 2x
+          script:
+            - aws configure set aws_access_key_id "${AWS_KEY}"
+            - aws configure set aws_secret_access_key "${AWS_SECRET}"
+            - echo "REACT_APP_BASE_URL=$REACT_APP_BASE_URL_STAGING" >> .env
+            - echo "REACT_APP_WALLE_BASE_URL=$REACT_APP_WALLE_BASE_URL_STAGING" >> .env
+            - echo "REACT_APP_STRIPE_PUBLISH_KEY=$REACT_APP_STRIPE_PUBLISH_KEY_STAGING" >> .env
+            - echo "REACT_APP_STRIPE_BASIC_PRICE_KEY=$REACT_APP_STRIPE_BASIC_PRICE_KEY_STAGING" >> .env
+            - echo "REACT_APP_STRIPE_PRO_PRICE_KEY=$REACT_APP_STRIPE_PRO_PRICE_KEY_STAGING" >> .env
+            - echo "REACT_APP_STRIPE_ADVANCED_PRICE_KEY=$REACT_APP_STRIPE_ADVANCED_PRICE_KEY_STAGING" >> .env
+            - echo "REACT_APP_STRIPE_ENTERPRISE_PRICE_KEY=$REACT_APP_STRIPE_ENTERPRISE_PRICE_KEY_STAGING" >> .env
+            - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ECR_STAGING}
+            - docker build -t ${AWS_ECR_STAGING}:${BITBUCKET_COMMIT} .
+            - docker push ${AWS_ECR_STAGING}:${BITBUCKET_COMMIT}
+      - step:
+          name: Deploy to EKS
+          deployment: Staging
+          trigger: manual  # Uncomment to make this a mancual deployment.
+          script:
+            - aws configure set aws_access_key_id "${AWS_KEY}"
+            - aws configure set aws_secret_access_key "${AWS_SECRET}"
+            - aws eks update-kubeconfig --region us-east-1 --name "${AWS_EKS_DEV}"
+            - git clone "${REPO_URL}"
+            - cd simulacrum.applications.helm.charts
+            - aws ecr get-login-password --region us-east-1 | helm registry login --username AWS --password-stdin ${HELM_LIBRARY_REPO}
+            - helm dependency update  ${CHART}
+            - helm upgrade -f ${CHART}/staging.values.yaml ${CHART} ${CHART} --set image.tag=${BITBUCKET_COMMIT} -i -n staging
+            - sleep  15 && curl -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE/purge_cache"
+              -H "Content-Type:application/json" -H "Authorization:Bearer $CLOUDFLARE_AUTH_KEY" --data '{"purge_everything":true}'
+
+    prod:
+      - step:
+          name: 'build docker and pull to ECR  '
+          services: [ docker ]
+          size: 2x
+          script:
+            - aws configure set aws_access_key_id "${AWS_KEY}"
+            - aws configure set aws_secret_access_key "${AWS_SECRET}"
+            - echo "REACT_APP_BASE_URL=$REACT_APP_BASE_URL_PROD" >> .env
+            - echo "REACT_APP_WALLE_BASE_URL=$REACT_APP_WALLE_BASE_URL_PROD" >> .env
+            - echo "REACT_APP_STRIPE_PUBLISH_KEY=$REACT_APP_STRIPE_PUBLISH_KEY_PROD" >> .env
+            - echo "REACT_APP_STRIPE_BASIC_PRICE_KEY=$REACT_APP_STRIPE_BASIC_PRICE_KEY_PROD" >> .env
+            - echo "REACT_APP_STRIPE_PRO_PRICE_KEY=$REACT_APP_STRIPE_PRO_PRICE_KEY_PROD" >> .env
+            - echo "REACT_APP_STRIPE_ADVANCED_PRICE_KEY=$REACT_APP_STRIPE_ADVANCED_PRICE_KEY_PROD" >> .env
+            - echo "REACT_APP_STRIPE_ENTERPRISE_PRICE_KEY=$REACT_APP_STRIPE_ENTERPRISE_PRICE_KEY_PROD" >> .env
+            - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ECR_PROD}
+            - docker build -t ${AWS_ECR_PROD}:${BITBUCKET_COMMIT} .
+            - docker push ${AWS_ECR_PROD}:${BITBUCKET_COMMIT}
+      - step:
+          name: Deploy to EKS
+          deployment: prod
+          trigger: manual  # Uncomment to make this a mancual deployment.
+          script:
+            - aws configure set aws_access_key_id "${AWS_KEY}"
+            - aws configure set aws_secret_access_key "${AWS_SECRET}"
+            - aws eks update-kubeconfig --region us-east-1 --name "${AWS_EKS_PROD}"
+            - git clone "${REPO_URL}"
+            - cd simulacrum.applications.helm.charts
+            - aws ecr get-login-password --region us-east-1 | helm registry login --username AWS --password-stdin ${HELM_LIBRARY_REPO}
+            - helm dependency update  ${CHART}
+            - helm upgrade -f ${CHART}/prod.values.yaml ${CHART} ${CHART} --set image.tag=${BITBUCKET_COMMIT} -i -n prod
+            - sleep  15 && curl -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE/purge_cache"
+              -H "Content-Type:application/json" -H "Authorization:Bearer $CLOUDFLARE_AUTH_KEY" --data '{"purge_everything":true}'
+ 
+
+
