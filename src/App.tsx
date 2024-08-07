@@ -5,9 +5,9 @@ import ReactDOM from 'react-dom';
 
 import SuspenseWrapper from './common/components/SuspenseWrapper';
 import { getThemeObjectByMode } from './globalStyles/theme';
+import { ConfigurationContextProvider } from './Contexts';
 import DynamicStyles from './globalStyles/DynamicStyles';
-import { UserContextProvider } from './Contexts';
-import { LazyLoadedUsersPage } from './views';
+import { LazyLoadedConfigurationPage } from './views';
 import './index.scss';
 
 const themeMode = 'light';
@@ -24,11 +24,11 @@ const App = () => {
           <Routes>
             <Route
               element={
-                <UserContextProvider>
+                <ConfigurationContextProvider>
                   <SuspenseWrapper>
-                    <LazyLoadedUsersPage />
+                    <LazyLoadedConfigurationPage />
                   </SuspenseWrapper>
-                </UserContextProvider>
+                </ConfigurationContextProvider>
               }
               path="/"
             />

@@ -1,0 +1,38 @@
+import { FormControlLabel, FormControl, RadioGroup, FormLabel, Radio } from '@mui/material';
+import React from 'react';
+
+import { Sizes } from '../../../constants';
+
+import { useConfigurationContext } from '/src/Contexts';
+
+export const SizeSection = () => {
+  const { setConfigurationData, configurationData } = useConfigurationContext();
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setConfigurationData({ ...configurationData, size: (event.target as HTMLInputElement).value });
+  };
+
+  return (
+    <FormControl sx={{ mt: '24px' }}>
+      <FormLabel id="demo-row-radio-buttons-group-label">Size</FormLabel>
+      <RadioGroup
+        aria-labelledby="demo-row-radio-buttons-group-label"
+        value={configurationData.size}
+        name="row-radio-buttons-group"
+        onChange={handleChange}
+      >
+        {Sizes.map((size) => {
+          return (
+            <FormControlLabel
+              sx={{ '& .MuiTypography-root': { fontSize: '12px' } }}
+              control={<Radio />}
+              label={size.label}
+              value={size.value}
+              key={size.id}
+            />
+          );
+        })}
+      </RadioGroup>
+    </FormControl>
+  );
+};
