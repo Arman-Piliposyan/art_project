@@ -13,7 +13,7 @@ export const LayoutLoader = ({ backgroundColor, height }: { backgroundColor?: st
   };
   return (
     <Box sx={loadingContainerStyles}>
-      <CircularProgress sx={{ color: Colors.simulacrumPrimary }} size={30} />
+      <CircularProgress sx={{ color: Colors.colorPrimary }} size={30} />
     </Box>
   );
 };

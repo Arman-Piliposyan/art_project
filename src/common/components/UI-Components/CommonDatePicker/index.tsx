@@ -31,12 +31,12 @@ export const CommonDatePicker = ({ handleSetDate, disabled, date }: Props) => {
                   borderColor: alpha(Colors.inputBorder, 0.5),
                   borderWidth: '1px',
                 },
-                '&:hover fieldset': {
-                  borderColor: Colors.simulacrumPrimary,
-                  borderWidth: '1px',
-                },
                 '&.Mui-error fieldset': {
                   borderColor: Colors.invalidRed,
+                  borderWidth: '1px',
+                },
+                '&:hover fieldset': {
+                  borderColor: Colors.colorPrimary,
                   borderWidth: '1px',
                 },
                 '& fieldset': {

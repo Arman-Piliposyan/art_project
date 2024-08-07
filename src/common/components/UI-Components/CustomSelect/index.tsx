@@ -82,7 +82,7 @@ export const CustomSelect = ({
                           height: '10px',
                           width: '10px',
                         }}
-                        style={{ color: Colors.simulacrumPrimary }}
+                        style={{ color: Colors.colorPrimary }}
                         color="primary"
                       />
                     }
@@ -107,11 +107,11 @@ export const CustomSelect = ({
               borderColor: Colors.white,
               borderWidth: '1px',
             },
-            '&:hover .MuiOutlinedInput-notchedOutline': {
-              borderColor: Colors.simulacrumPrimary,
-            },
             '&.Mui-error .MuiOutlinedInput-notchedOutline': {
               borderColor: Colors.invalidRed,
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: Colors.colorPrimary,
             },
           }}
           input={<OutlinedInput id="select-multiple-chip" label="Chip" size="small" fullWidth />}
@@ -143,7 +143,7 @@ export const CustomSelect = ({
                   height: '26px',
                   width: '26px',
                 }}
-                style={{ color: Colors.simulacrumPrimary }}
+                style={{ color: Colors.colorPrimary }}
                 color="primary"
               />
               <Box sx={{ whiteSpace: 'normal', fontSize: '12px' }}>{option.label}</Box>

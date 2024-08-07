@@ -1,5 +1,3 @@
-import { format } from 'date-fns';
-
 import { refreshTokenPost } from '../services/authService';
 
 import { Colors } from '/src/globalStyles/colors';
@@ -28,19 +26,19 @@ export const ScrollBarStylesGenerator = (
 ) => {
   return {
     '&::-webkit-scrollbar': {
-      backgroundColor: color ? color + 25 : Colors.simulacrumPrimary + '25',
+      backgroundColor: color ? color + 25 : Colors.colorPrimary + '25',
       borderRadius: '8px',
       opacity: '0.1',
       height: '4px',
       width: '4px',
     },
     '&::-webkit-scrollbar-track': {
-      backgroundColor: color ? color + 25 : Colors.simulacrumPrimary + '25',
+      backgroundColor: color ? color + 25 : Colors.colorPrimary + '25',
       borderRadius: '8px',
       opacity: '0.1',
     },
     '&::-webkit-scrollbar-thumb': {
-      backgroundColor: color ? color : Colors.simulacrumPrimary,
+      backgroundColor: color ? color : Colors.colorPrimary,
       borderRadius: '8px',
     },
     overflow: hasOverflowX ? 'auto' : 'hidden',
@@ -51,19 +49,4 @@ export const ScrollBarStylesGenerator = (
 
     overflowY: 'auto',
   };
-};
-
-export const generateValue = (prop: { value: string; type: string }) => {
-  if (prop.type === 'datetime') {
-    const date = format(new Date(prop.value), 'MM/dd/yyyy HH:mm');
-    return date;
-  }
-  if (prop.type === 'date') {
-    const date = format(new Date(prop.value), 'MM/dd/yyyy');
-    return date;
-  }
-  if (prop.type === 'boolean') {
-    return prop.value ? 'Yes' : 'No';
-  }
-  return prop.value;
 };

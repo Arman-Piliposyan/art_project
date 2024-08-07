@@ -27,7 +27,7 @@ export const NotificationItem = ({
       {notificationText && (
         <Typography
           sx={{
-            color: Colors.simulacrumPrimary,
+            color: Colors.colorPrimary,
             whiteSpace: 'normal',
             fontSize: '10px',
           }}

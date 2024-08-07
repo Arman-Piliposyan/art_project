@@ -84,11 +84,11 @@ export const MultiSelectController = ({
                 '&.Mui-disabled .MuiOutlinedInput-notchedOutline': {
                   borderColor: alpha(Colors.placeholderColor, 0.5),
                 },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: Colors.simulacrumPrimary,
-                },
                 '&.Mui-error .MuiOutlinedInput-notchedOutline': {
                   borderColor: Colors.invalidRed,
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: Colors.colorPrimary,
                 },
               }}
               renderValue={multiple ? undefined : renderValue}

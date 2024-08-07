@@ -79,33 +79,6 @@ module.exports = function production(envVars) {
     },
 
     plugins: [
-      // new ModuleFederationPlugin({
-      //   name: 'collector_frontend',
-      //   filename: 'remoteEntry.js',
-      //   remotes: {
-      //     collector: 'collector_frontend@http://localhost:3001/remoteEntry.js',
-      //     commutator:
-      //       env === 'production'
-      //         ? `commutator_frontend@https://dev-chat.simulacrumai.com/remoteEntry.js`
-      //         : `commutator_frontend@http://localhost:3005/remoteEntry.js`,
-      //   },
-      //   exposes: {},
-      //   shared: {
-      //     ...deps,
-      //     react: {
-      //       singleton: true,
-      //       requiredVersion: deps.react,
-      //     },
-      //     'react-dom': {
-      //       singleton: true,
-      //       requiredVersion: deps['react-dom'],
-      //     },
-      //     'react-router-dom': {
-      //       singleton: true,
-      //       requiredVersion: deps['react-router-dom'],
-      //     },
-      //   },
-      // }),
       new MiniCssExtractPlugin({
         filename: 'styles.[contenthash].css',
       }),
