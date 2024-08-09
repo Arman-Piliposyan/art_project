@@ -9,7 +9,14 @@ export const ReflectionSection = () => {
   const { setConfigurationData, configurationData } = useConfigurationContext();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setConfigurationData({ ...configurationData, reflection: (event.target as HTMLInputElement).value });
+    setConfigurationData({
+      ...configurationData,
+      reflectionColor:
+        (event.target as HTMLInputElement).value === 'noReflection'
+          ? 'white'
+          : configurationData.reflectionColor,
+      reflection: (event.target as HTMLInputElement).value,
+    });
   };
 
   return (

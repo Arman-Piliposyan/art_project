@@ -21,14 +21,19 @@ export const SizeSection = () => {
         name="row-radio-buttons-group"
         onChange={handleChange}
       >
-        {Sizes.map((size) => {
+        {Sizes.filter((size) => {
+          if (!configurationData.proportion) {
+            return size;
+          }
+          return size.availableInProportion === configurationData.proportion;
+        }).map((filteredSize) => {
           return (
             <FormControlLabel
               sx={{ '& .MuiTypography-root': { fontSize: '12px' } }}
+              label={filteredSize.label}
+              value={filteredSize.value}
+              key={filteredSize.id}
               control={<Radio />}
-              label={size.label}
-              value={size.value}
-              key={size.id}
             />
           );
         })}

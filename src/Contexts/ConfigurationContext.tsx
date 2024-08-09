@@ -15,6 +15,8 @@ type Props = {
 const initialData = {
   reflectionColor: '',
   reflection: '',
+  proportion: '',
+  signColor: '',
   material: '',
   size: '',
 };
